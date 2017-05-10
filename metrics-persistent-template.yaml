@@ -121,6 +121,14 @@ objects:
         rule_files:
 
         scrape_configs:
+          # to scrape prometheus
+          - job_name: 'prometheus'
+
+            # scheme defaults to 'http'.
+            static_configs:
+              - targets:
+                  - prometheus:9090
+
           # This is to scrape metrics of all the pods, containers, services from the openshift cluster
           - job_name: 'openshift-nodes'
             scheme: https  # remove if you want to scrape metrics on insecure port
