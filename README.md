@@ -22,7 +22,7 @@ Grafana template is inherited from [grafana-dashboard](https://github.com/instru
 
 
 ### Data Source Configuration in Grafana
-1. Login to grafana (admin/monitor)![Login](images/login.png)
+1. Login to grafana (admin/monitor)![Login](images/login_gf.png)
 
 2. Select Data Source ![Select DS](images/select_ds.png)
 
