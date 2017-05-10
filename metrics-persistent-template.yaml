@@ -13,11 +13,11 @@ metadata:
     description: This template defines objects that are required to spin up metrics monitoring pod
     tags: prometheus, grafana, metrics
     openshift.io/display-name: metrics-monitoring-persistent
-    openshift.io/long-description: "This template provides objects that are required to spin up a metrics monitoring pod. It contains prometheus for metrics aggregation, and grafana for visualization. The database is stored on persistent storage, so any restart of the service will not cause any impact to the data.
+    openshift.io/long-description: "This template provides objects that are required to spin up a metrics monitoring pod. It contains prometheus for metrics aggregation, and grafana for visualization. The database is stored on persistent storage, so any restart of the service will not cause any impact to the data."
     openshift.io/provider-display-name: Metrics-OpenShift
 labels:
   app: metrics-persistent-template
-  createdBy: Srinivasa Vasu
+  createdBy: Srinivasa-Vasu
 parameters:
   -
     name: PT_APP_NAME
@@ -56,7 +56,7 @@ objects:
       name: monitor-scc
       annotations:
         kubernetes.io/description: "This provides all features of the restricted SCC but allows users to run with any UID and any GID.
-         This mostly inherits anyuid scc."
+        This mostly inherits anyuid scc."
     runAsUser:
       type: RunAsAny
     seLinuxContext:
@@ -66,7 +66,7 @@ objects:
     supplementalGroups:
       type: RunAsAny
     users:
-    - system:serviceaccount:${metadata.namespace}:${SVC_ID}
+    - system:serviceaccount:openshift-infra:${SVC_ID}
     volumes:
     - configMap
     - downwardAPI
@@ -115,8 +115,12 @@ objects:
           # Attach these labels to any time series or alerts when communicating with
           # external systems (federation, remote storage, Alertmanager).
           external_labels:
-              monitor: 'my-project'
+              monitor: 'metric-project'
 
+        # Load and evaluate rules in this file every 'evaluation_interval' seconds.
+        rule_files:
+
+        scrape_configs:
           # This is to scrape metrics of all the pods, containers, services from the openshift cluster
           - job_name: 'openshift-nodes'
             scheme: https  # remove if you want to scrape metrics on insecure port
@@ -182,6 +186,8 @@ objects:
               mountPath: /etc/prometheus
             resources:
             imagePullPolicy: IfNotPresent
+          serviceAccount: ${SVC_ID}
+          serviceAccountName: ${SVC_ID}
           restartPolicy: Always
           terminationGracePeriodSeconds: 30
   -
