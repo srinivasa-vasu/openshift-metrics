@@ -17,6 +17,7 @@ Grafana template is inherited from [grafana-dashboard](https://github.com/instru
 > oc adm policy add-cluster-role-to-user cluster-reader system:serviceaccount:openshift-infra:monitor
 
 (If you have changed the namespace and service-account, then replace it appropriately)
+
 3. Grafana pod requires escalated privileges to run. Pls configre scc with appropriate privileges.
 
 
